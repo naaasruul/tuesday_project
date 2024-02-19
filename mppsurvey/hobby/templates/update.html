@@ -1,0 +1,18 @@
+<form method="post" action="updatedata/{{ updateid.mentorId }}">
+    {% csrf_token %}
+        <span>
+            <label for="mentorId">Enter Mentor ID: </label><br>
+            <input type="text" name="mentorId" disabled value="{{updateid.mentorId}}">
+        </span>
+        <span>
+            <label for="">Enter Mentor Name: </label><br>
+            <input type="text" name="mentorName" value="{{updateid.mentorName}}">
+        </span>
+        <span>
+            <label for="">Enter Mentor Room Number: </label><br>
+            <input type="text" name="roomNo" value="{{updateid.roomNo}}" required>
+        </span>
+        <button type="submit" value="submit">Submit</button>
+
+</form>
+<h1>{{updateid.mentorId}}</h1>

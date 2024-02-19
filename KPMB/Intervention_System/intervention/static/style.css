@@ -1,0 +1,49 @@
+.my-nav{
+    display: flex;
+    flex-direction: row;
+    gap: 0.3em;
+    padding: 0.2em 0.3em;
+}
+
+main{
+    padding: 1em;
+}
+
+main .title-header{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: start;
+}
+
+.content{
+    margin: 3em;
+}
+
+.loginFormContainer{
+    margin: 2em 35%;
+    padding: 1em;
+}
+
+.loginFormContainer form{
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+
+form .radio-container{
+    display: flex;
+    gap:  0.7em;
+    flex-direction: column;
+}
+
+.login-button-container{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+}
+
+.reportFormContainer{
+    margin: 2em 20%;
+}

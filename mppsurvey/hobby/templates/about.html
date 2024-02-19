@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Mentor</title>
+    <link rel="stylesheet" href="{% static 'styleAdd.css'%}">
+</head>
+
+<body>
+    <form method="post" action="" class="form">
+        {% csrf_token %}
+        <span>
+            <label for="mentorId">Enter Student ID: </label><br>
+            <input type="text" name="mentorId" required>
+        </span>
+        <span>
+            <label for="">Enter Student Name: </label><br>
+            <input type="text" name="mentorName" required>
+        </span>
+
+        
+    <select name="mentor" id="Mentor">
+        {% for j in displayData %}
+        <option value="{{j.mentorId}}">{{j.mentorName}}</option>
+        {% endfor %}
+    </select>
+
+        <button type="submit" value="submit">Submit</button>
+    </form>
+</body>
+
+</html>

@@ -1,0 +1,108 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <link rel="stylesheet" href="{% static 'style.css'%}">
+    <style>
+        
+    </style>
+</head>
+
+<body>
+    sd'lfjlksjflk
+    <nav class="main">
+        <img class="logo" src="{% static 'LogoKPM.png'%}" alt="">
+        <h1>Kolej Professional Mara Beranang</h1>
+
+    </nav>
+    <nav class="sec-nav">
+        <h4><a href="{% url 'index' %}">Home</a></h4>
+        <h4><a href="{% url 'about' %}">Add New Student</a></h4>
+        <h4><a href="{% url 'newMentor' %}">Add New Mentor</a></h4>
+    </nav>
+
+    <main>
+        <!-- use variable in HTML 👇 -->
+        {% with firstName="Nasrul" %}
+        <h3>Hi MPP {{firstName}}!</h3>
+        <p>Nasrul is a variable in HTML</p>
+        {% endwith %}
+        <br>
+        <form action="searchpage" method="get">
+            <input type="text" id="searchbar" placeholder="Search for a product..." name="product_name"/>
+            <button type="submit">Submit</button>
+        </form>
+
+        <table>
+            <tr>
+                <th>Mentor ID</th>
+                <th>Mentor Name</th>
+                <th>Room No</th>
+            </tr>
+            {%for x in findMentor%}
+            <tr>
+                <td>{{x.mentorId}}</td>
+                <td>{{x.mentorName}}</td>
+                <td>{{x.roomNo}}</td>
+            </tr>
+            {%endfor%}
+        </table>
+        <!-- use variable in views.py 👇 -->
+        <!-- <h3>This is my nickname {{nickname}}!</h3> -->
+        <p>Hidayat is a variable that stored in views.py</p>
+<div class="table">
+    <table>
+        <th>Mentor ID</th>
+        <th>Mentor Name</th>
+        <th>Mentor Room</th>
+        {% for i in displayData %}
+        <tr>
+            <td>{{i.mentorId}}</td>
+            <td>{{i.mentorName}}</td>
+            <td>{{i.roomNo}}</td>
+            <td><a href="update/{{i.mentorId}}"> UPDATE </a></td>
+            <td><a href="viewdelete/{{i.mentorId}}"> DELETE </a></td>
+        </tr>
+        {% endfor %}
+        <tr>
+            
+        </tr>
+
+    </table>
+</div>
+
+
+<!-- <form method="post" action="." class="form">
+    {%csrf_token%}
+    <span>
+        <label for="mentorId">Enter Mentor ID: </label><br>
+        <input type="text" name="mentorId">
+    </span>
+    <span>
+        <label for="">Enter Mentor Name: </label><br>
+        <input type="text" name="mentorName">
+    </span>
+    <span>
+        <label for="">Enter Mentor Room Number: </label><br>
+        <input type="text" name="mentorRoom">
+    </span>
+    <button type="submit">Submit</button>
+</form> -->
+
+
+
+
+    <select name="mentor" id="Mentor">
+        {% for j in displayData %}
+        <option value="{{j.mentorId}}">{{j.mentorName}}</option>
+        {% endfor %}
+    </select>
+    
+    </main>
+</body>
+
+</html>

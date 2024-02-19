@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Gender</th>
+        </tr>
+
+        {%for list in students%}
+        <tr>
+            <td>{{list.stuId }}</td>
+            <td>{{list.name }}</td>
+            <td>{{list.age }}</td>
+            <td>{{list.gender }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+
+    <form  method="post">
+        {% csrf_token %}
+        <!-- ID -->
+        <label for="add_student">Enter ID: </label>
+        <input type="text" name="idstu" id="idstu">
+        <br>
+        <!-- Name -->
+        <label for="add_student">Enter Name: </label>
+        <input type="text" name="namestu" id="namestu">
+        <br>
+        <!--  Age -->
+        <label for="add_student">Enter Age: </label>
+        <input type="number" name="agestu" id="agestu"><br>
+
+        <!--  Gender -->
+        <label for="add_student">Enter Gender: </label>
+        <select name="genderstu" id="genderstu">
+            <option value="1">Male</option>
+            <option value="0">Female</option>
+        </select>
+
+        <input type="submit">
+    </form>
+
+
+
+
+
+</body>
+
+</html>

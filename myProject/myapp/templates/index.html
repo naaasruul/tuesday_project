@@ -1,0 +1,27 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My first Page</title>
+    <link rel="stylesheet" href="{% static 'style.css'%}">
+
+</head>
+<body>
+    <nav>
+        <a href="">Home</a>
+        <a href="{% url 'about'%}">About</a>
+        <a href="">Contact</a>
+    </nav>
+    <header>
+        <span class="pp"></span>
+        <h1>Steve Rogers</h1>
+    </header>
+    <hr>
+    <main>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Distinctio ut consectetur similique! Unde repudiandae fuga voluptate veniam alias! Aut sed pariatur ducimus molestiae assumenda minus facere sunt temporibus quo velit!</p>
+        <img class="gambarInstrumental" src="{% static 'DSC04975.JPG' %}" alt="">
+    </main>
+</body>
+</html>
