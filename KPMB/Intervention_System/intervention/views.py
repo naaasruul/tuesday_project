@@ -166,9 +166,30 @@ def makeAppointment(request, mentorId):
     displayMentor = Mentor.objects.get(mentorId=mentorId)
     displayAllStudent = Student.objects.all().values()
     displayStudent = Student.objects.filter(mentor=mentorId)
+
     mentorDetails = {
         'mentorId': displayMentor,
-        'studentId': displayAllStudent
+        'studentId': displayAllStudent,
+        
         }
     
+    return render(request,"myAppointment.html",mentorDetails)
+
+def submitAppointment(request, mentorId):
+    if request.method == "POST":
+        menId = mentorId
+        studentId = request.POST['appointmentStudentId']
+        datetime = request.POST['appointmentDate']
+        venue = request.POST['appointmentVenue']
+        time = request.POST['appointmentTime']
+        desc = request.POST['appointmentDesc']
+        message = request.POST['appointmentMessage']
+        purpose = request.POST['appointmentPurpose']
+
+        mentorID = Mentor.objects.get(mentorId=menId)
+        stuID = Student.objects.get(studentId=studentId)
+
+        appointment = Appointment(mentor=menId, student=studentId,appointmentDate=datetime,venue=venue,time=time,description=desc,purpose=purpose)
+        appointment.save()
+
     return render(request,"myAppointment.html",mentorDetails)

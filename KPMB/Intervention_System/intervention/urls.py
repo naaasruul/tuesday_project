@@ -13,6 +13,7 @@ urlpatterns = [
     path("lecturer/myStudent/<str:mentorId>", views.displayStudent, name="myStudent"),
     path("lecturer/myStudent/findMyMentee/<str:mentorId>", views.findMyMentee, name="findMyMentee"),
     path("lecturer/myAppointment/<str:mentorId>", views.makeAppointment, name="makeAppointment"),
+    path("lecturer/myAppointment/submitAppointment/<str:mentorId>", views.submitAppointment, name="makeAppointment"),
 
     # path("about", views.about, name="about"),
     # path("contact", views.contact, name="contact"),
