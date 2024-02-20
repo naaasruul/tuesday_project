@@ -25,8 +25,53 @@
     
         <!-- {{mentorId.mentorId}}
         {{studentId}} -->
+        <!-- {{repo}} -->
+        {{details}}
         <div class="reportFormContainer">
             <h2 class="mb-3">Report Form</h2>
+            {%if mode == "update" %}
+            <form method="post" action="./update/{{repo}}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1"  class="form-label">Lecturer ID</label>
+                    <input type="hidden" class="form-control" name="reportMentorId" id="exampleFormControlInput1" value="{{mentorId.mentorId}}">
+                    <input type="text" class="form-control" id="exampleFormControlInput1" value="{{mentorId.mentorId}}" disabled>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1"  class="form-label">Student ID</label>
+                    <select disabled class="form-select form-select-lg mb-3" aria-label="Large select example">
+                        {% for student in studentId %}
+                        <option value="{{student.studentId}}">{{student.studentId}}</option>
+                        {% endfor%}
+
+                    </select>
+                    {% for student in studentId %}
+                    <input type="hidden" class="form-control" name="reportStudentId" id="exampleFormControlInput1" value="{{student.studentId}}" >
+                    {% endfor%}
+                </div>
+                
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Date</label>
+                    <input type="date" class="form-control" name="reportDate" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Category</label>
+                  <select name="reportCategory" class="form-select form-select-lg mb-3" aria-label="Large select example">
+                    <option selected>Select Category: </option>
+                    <option value="1">Category 1</option>
+                    <option value="2">Category 2</option>
+                    <option value="3">Category 3</option>
+                </select>
+                </div>
+                
+                  <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label">Report Description</label>
+                    <textarea name="reportDesc" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+            </form>    
+            {% else %}
             <form method="post" action="report/{{mentorId.mentorId}}">
                 {% csrf_token %}
                 <div class="mb-3">
@@ -63,6 +108,7 @@
                   </div>
                   <button type="submit" class="btn btn-primary">Submit</button>
             </form>
+            {%endif%}
         </div>
 
     <div class="offcanvas offcanvas-start" tabindex="-1" id="leftOffcanvas" aria-labelledby="leftOffcanvasLabel">
@@ -84,8 +130,8 @@
                         Student
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">My Student</a></li>
-                        <li><a class="dropdown-item" href="#">Make Appoinment</a></li>
+                        <li><a class="dropdown-item" href="../myStudent/{{mentorId.mentorId}}">My Student</a></li>
+                        <li><a class="dropdown-item" href="../myAppointment/{{mentorId.mentorId}}">Make Appoinment</a></li>
                         <!-- <li>
                             <hr class="dropdown-divider">
                         </li> -->

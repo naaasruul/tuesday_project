@@ -23,7 +23,7 @@ class Appointment(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     appointmentDate = models.DateField()
     venue = models.CharField(max_length=100)
-    time = models.DateTimeField()
+    time = models.TimeField()
     description = models.TextField(blank=True, null=True)
     purpose = models.TextField(blank=True, null=True)
     # Add any other fields relevant to the appointment

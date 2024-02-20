@@ -20,6 +20,11 @@
         </div>
     </nav>
     <main class="loginFormContainer">
+        {% if message %}
+        <div class="alert alert-primary" role="alert">
+            {{message}}
+          </div>
+        {% endif%}
         {% if messages %}
             {% for message in messages %}
             <div class="alert alert-success" role="alert">

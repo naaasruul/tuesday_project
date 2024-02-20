@@ -27,6 +27,7 @@
         </button>
         <div class="reportFormContainer">
             <h2 class="mb-3">Appoinment Form</h2>
+            {% if mode == "submit" %}
             <form method="post" action="./submitAppointment/{{mentorId.mentorId}}">
                 {% csrf_token %}
                 <div class="mb-3">
@@ -80,6 +81,63 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
+            {% else %}
+            <form method="post" action="../updateAppointment/update/{{app}}">
+                {% csrf_token %}
+                <fieldset>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Lecturer ID</label>
+                        <input type="hidden" name="appMentorId" value="{{mentorId.mentorId}}">
+                        <input type="text" class="form-control " id="exampleFormControlInput1"
+                            value="{{mentorId.mentorId}}" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Student ID</label>
+                        {% for student in studentId %}                            
+                        <input type="hidden" name="appStudentId" value="{{student.studentId}}">
+                        {% endfor%}    
+                                            
+                        <select disabled  class="form-select form-select-lg mb-3"
+                            aria-label="Large select example">
+                            {% for student in studentId %}
+                            <option value="{{student.studentId}}">{{student.studentId}}</option>
+                            {% endfor%}
+                        </select>
+                    </div>
+                </fieldset>
+
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Date</label>
+                    <input type="date" class="form-control" name="appointmentDate" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Venue</label>
+                    <input type="text" class="form-control" placeholder="Example: M10" name="appointmentVenue" id="exampleFormControlInput1"
+                        required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Time</label>
+                    <input type="time" class="form-control" name="appointmentTime" placeholder="optional"
+                        id="exampleFormControlInput1" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label">Message</label>
+                    <textarea name="appointmentMessage" placeholder="optional"  class="form-control" id="exampleFormControlTextarea1"
+                        rows="3"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label">Purpose</label>
+                    <textarea name="appointmentPurpose" placeholder="optional"  class="form-control" id="exampleFormControlTextarea1"
+                        rows="3"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+            {% endif %}
         </div>
 
         <div class="offcanvas offcanvas-start" tabindex="-1" id="leftOffcanvas" aria-labelledby="leftOffcanvasLabel">

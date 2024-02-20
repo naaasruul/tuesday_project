@@ -8,7 +8,7 @@ from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required, permission_required
 
-from intervention.models import Mentor, Student, Admin, Report  # Import the Student model
+from intervention.models import Mentor, Student, Admin, Report, Appointment  # Import the Student model
 
 def login_user(request):
     if request.method == "POST":
@@ -69,11 +69,16 @@ def login_user(request):
 
 def studentPage(request, studentId):
     try:
-        student = Student.objects.get(studentId=studentId)
-        report = Report.objects.filter(student= studentId)
+        # student = Student.objects.get(studentId=studentId)
+        student = Student.objects.filter(studentId=studentId).values()
+        report = Report.objects.filter(student= studentId).values()
+        appointment = Appointment.objects.filter(student=studentId).values()
+        mentorDetails = Mentor.objects.all().values
         student_details = {
             'studentDetails': student,
-            'reports': report
+            'reports': report,
+            'appointmentDetails': appointment,
+            'mentorDetails':mentorDetails
         }
 
         return render(request, 'student_page.html', student_details)
@@ -83,13 +88,17 @@ def studentPage(request, studentId):
 
 def lecturerPage(request, mentorId):
     try:
+
         lecturer = Mentor.objects.get(mentorId=mentorId)
         report = Report.objects.all().values
         studentDetails = Student.objects.all().values
+        appointment = Appointment.objects.filter(mentor=mentorId).values()
+
         lecturer_details = {
             'lecturerDetails': lecturer,
             'reports': report,
-            'studentDetails':studentDetails
+            'studentDetails':studentDetails,
+            'appointmentDetails': appointment,
         }
         return render(request, 'lecturer_page.html', lecturer_details)
     except Mentor.DoesNotExist:
@@ -168,6 +177,7 @@ def makeAppointment(request, mentorId):
     displayStudent = Student.objects.filter(mentor=mentorId)
 
     mentorDetails = {
+        'mode':"submit",
         'mentorId': displayMentor,
         'studentId': displayAllStudent,
         
@@ -182,14 +192,96 @@ def submitAppointment(request, mentorId):
         datetime = request.POST['appointmentDate']
         venue = request.POST['appointmentVenue']
         time = request.POST['appointmentTime']
-        desc = request.POST['appointmentDesc']
         message = request.POST['appointmentMessage']
         purpose = request.POST['appointmentPurpose']
 
         mentorID = Mentor.objects.get(mentorId=menId)
         stuID = Student.objects.get(studentId=studentId)
 
-        appointment = Appointment(mentor=menId, student=studentId,appointmentDate=datetime,venue=venue,time=time,description=desc,purpose=purpose)
+        appointment = Appointment(mentor=mentorID, student=stuID, appointmentDate=datetime, venue=venue, time=time, description=message, purpose=purpose)
         appointment.save()
 
-    return render(request,"myAppointment.html",mentorDetails)
+    return redirect('lecturerPage', mentorId=mentorId)
+
+
+def updateAppointment(request, appId):
+    
+    appDetails= Appointment.objects.get(id=appId)  # get the details of the
+    displayAllStudent = Student.objects.all().values()
+
+    mentorId = appDetails.mentor
+    appId = appDetails.id
+    displayMentor = Mentor.objects.get(mentorId=mentorId.mentorId)
+    displayStudent = Student.objects.filter(mentor=mentorId.mentorId)
+
+
+    appointmentDetails = {
+        'mode':'update',
+        'mentorId': displayMentor,
+        'studentId': displayAllStudent,
+        'app':appId
+    }
+    return render(request,"myAppointment.html",appointmentDetails)
+
+def submitUpdateAppointment(request, appId):
+    updateid = Appointment.objects.get(id = appId)
+    menId = request.POST['appMentorId']
+    studentId = request.POST['appStudentId']
+    datetime = request.POST['appointmentDate']
+    venue = request.POST['appointmentVenue']
+    time = request.POST['appointmentTime']
+    message = request.POST['appointmentMessage']
+    purpose = request.POST['appointmentPurpose']
+
+    updateid.appointmentDate = datetime
+    updateid.venue = venue
+    updateid.time = time
+    updateid.description = message
+    updateid.purpose = purpose
+
+    updateid.save()
+    return redirect('lecturerPage',mentorId=menId)
+
+def viewUpdateReport(request,repId):
+    repoDetails= Report.objects.get(id=repId)  # get the details of the
+    displayAllStudent = Student.objects.all().values()
+
+    mentorId = repoDetails.mentor
+    repoId = repoDetails.id
+    displayMentor = Mentor.objects.get(mentorId=mentorId.mentorId)
+    displayStudent = Student.objects.filter(mentor=mentorId.mentorId)
+
+
+    appointmentDetails = {
+        'mode':'update',
+        'mentorId': displayMentor,
+        'studentId': displayAllStudent,
+        'repo':repoId
+    }  
+
+    return render(request,"lectReport.html",appointmentDetails)
+
+def submitUpdateReport(request, repId):
+    repoDetails= Report.objects.get(id=repId)  # get the details of the
+    # updateid = Appointment.objects.get(id = appId)
+
+    menId = request.POST['reportMentorId']
+    studentId = request.POST['reportStudentId']
+    datetime = request.POST['reportDate']
+    category = request.POST['reportCategory']
+    description = request.POST['reportDesc']
+
+
+    mentorID = Mentor.objects.get(mentorId=menId)
+    stuID = Student.objects.get(studentId=studentId)
+
+    repoDetails.mentor=mentorID
+    repoDetails.student=stuID
+    repoDetails.date=datetime
+    repoDetails.reportCategory=category
+    repoDetails.reportText=description
+
+    repoDetails.save()
+
+    return redirect('lecturerPage',mentorId=menId)
+    # return render(request,"lectReport.html",appointmentDetails)

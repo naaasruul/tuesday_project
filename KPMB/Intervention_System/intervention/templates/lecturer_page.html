@@ -53,16 +53,65 @@
                         <td>{{ report.date }}</td>
                         <td>{{ report.reportCategory }}</td>
                         <td>{{ report.reportText }}</td>
+                        <td class="d-flex justify-content-center">
+                            <div class="dropdown-center">
+                                <button class="btn btn-primary dropdown-toggle" type="button"data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="./lectReport/report/updateReport/{{report.id}}">Update</a></li>
+                                    <li><a class="dropdown-item" href="#">Delete</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <hr>
+            <div class="title-header mb-2 mt-5">
+                <h2>My Appointment</h2>
+            </div>
+            <table class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Student Name</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Venue</th>
+                        <th scope="col">Time</th>
+                        <th scope="col">Message</th>
+                        <th scope="col">Reason</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appointment in appointmentDetails %}
+                    <tr>
+                        <th scope="row">{{ appointment.id }}</th>
+                        {% for student in studentDetails %}
+                        {% if appointment.student_id == student.studentId %}
+                        <td>{{ student.studentName }}</td>
+                        {% endif %}
+                        {% endfor %}
+                        <td>{{ appointment.appointmentDate }}</td>
+                        <td>{{ appointment.venue }}</td>
+                        <td>{{ appointment.time }}</td>
+                        <td>{{ appointment.description }}</td>
+                        <td>{{ appointment.purpose }}</td>
+                        <td class="d-flex justify-content-center">
+                            <div class="dropdown-center">
+                                <button class="btn btn-primary dropdown-toggle" type="button"data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="./myAppointment/submitAppointment/updateAppointment/{{appointment.id}}">Update</a></li>
+                                    <li><a class="dropdown-item" href="#">Delete</a></li>
+                                </ul>
+                            </div>
+                        </td>                                                
                     </tr>
                     {% endfor %}
 
 
                 </tbody>
             </table>
-
-            <div class="title-header mb-2 mt-5">
-                <h2>Appointment</h2>
-            </div>
+        </div>
         </div>
 
         <div class="offcanvas offcanvas-start" tabindex="-1" id="leftOffcanvas" aria-labelledby="leftOffcanvasLabel">
@@ -85,8 +134,10 @@
                             Student
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="myStudent/{{lecturerDetails.mentorId}}">My Student</a></li>
-                            <li><a class="dropdown-item" href="myAppointment/{{lecturerDetails.mentorId}}">Make Appoinment</a></li>
+                            <li><a class="dropdown-item" href="myStudent/{{lecturerDetails.mentorId}}">My Student</a>
+                            </li>
+                            <li><a class="dropdown-item" href="myAppointment/{{lecturerDetails.mentorId}}">Make
+                                    Appoinment</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -94,7 +145,6 @@
         </div>
         </div>
     </main>
-    {{lecturerDetails}}
 </body>
 <script src="https://kit.fontawesome.com/d46a78d0a5.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
