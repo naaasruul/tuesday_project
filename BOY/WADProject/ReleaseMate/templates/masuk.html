@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('{% static "bck.jpg" %}');
+            color: black;
+        }
+        header {
+            background-color:#525165;
+            padding: 10px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .header-content {
+            display: flex;
+            align-items: center;
+        }
+        .header-content h1 {
+            font-family: 'Papyrus', cursive;
+            margin-right: 10px;
+            color: aliceblue
+        }
+        form {
+            max-width: 300px;
+            margin: 20px auto;
+            top: 5%;
+            width: 100%;
+            padding: 30px;
+            border: 3px solid black;
+            border-radius: 8px;
+            background-color: rgba(182, 176, 176, 0.8);
+        }
+        input[type="text"], input[type="password"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: grey;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        label {
+            color: #333;
+            margin-top: 10px;
+            display: block;
+        }
+        img.logo {
+            width: 90px;
+            height: 110px;
+            margin-right: 10px; /* Adjust margin as needed */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <img src="{% static 'm.png' %}" class="logo">
+            <h1>Student Log in Page</h1><br><br><hr>
+        </div>
+    </header>
+    <center><h3>Please enter your login credentials to access your account</h3></center>
+    <form method="post">
+        {% csrf_token %}
+        <h2>Student Login</h2>
+        <label for="Student_Id">Student ID:</label>
+        <input type="text" id="Student_Id" name="Student_Id" required>
+        <label for="Student_Name">Student Name:</label>
+        <input type="text" id="Student_Name" name="Student_Name" required>
+        <label for="Course">Course:</label>
+        <input type="text" id="Course" name="Course" required>
+        <input type="submit" value="Login">
+    </form>
+</body>
+</html>

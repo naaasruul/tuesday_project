@@ -16,7 +16,7 @@
         <div class="container-fluid">
             <span class="navbar-brand my-nav mb-0 h1">
                 <img src="{% static 'assets/LogoKPM.png' %}" alt="" width="40">
-                <h4>Intervention System</h4>
+                <h4>KPMCare</h4>
             </span>
         </div>
     </nav>
@@ -27,7 +27,7 @@
         </button>
 
         <div class="content">
-            
+
             {% if mode == 'allStudent'%}
             <div class="title-header mb-2">
                 <h2>My Student</h2>
@@ -43,6 +43,9 @@
                         <th scope="col">ID</th>
                         <th scope="col">Student Name</th>
                         <th scope="col">Mentor</th>
+                        <th scope="col">Course</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Phone Number</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,7 +54,14 @@
                         <tr>
                             <th scope="row">{{ student.studentId }}</th>
                             <td>{{ student.studentName }}</td>
-                            <td>{{ student.mentor_id }}</td>
+                            {% for mentor in allMentor%}
+                            {% if student.mentor_id == mentor.mentorId%}
+                            <td>{{ mentor.mentorName }}</td>
+                            {%endif%}
+                            {% endfor%}
+                            <td>{{student.course}}</td>
+                            <td>{{student.address}}</td>
+                            <td>{{student.phone}}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -71,6 +81,9 @@
                         <th scope="col">ID</th>
                         <th scope="col">Student Name</th>
                         <th scope="col">Mentor</th>
+                        <th scope="col">Course</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Phone Number</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -79,14 +92,20 @@
                         <tr>
                             <th scope="row">{{ student.studentId }}</th>
                             <td>{{ student.studentName }}</td>
-                            <td>{{ student.mentor_id }}</td>
+                            {% for mentor in allMentor%}
+                            {% if student.mentor_id == mentor.mentorId%}
+                            <td>{{ mentor.mentorName }}</td>
+                            {%endif%}
+                            {% endfor%}
+                            <td>{{student.course}}</td>
+                            <td>{{student.address}}</td>
+                            <td>{{student.phone}}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
             {%endif%}
         </div>
-
         <div class="offcanvas offcanvas-start" tabindex="-1" id="leftOffcanvas" aria-labelledby="leftOffcanvasLabel">
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title" id="leftOffcanvasLabel">{{lecturerDetails.0.mentorName}}</h5>
@@ -99,7 +118,9 @@
                         <a class="nav-link active" aria-current="page" href="{% url 'lecturerPage' mentorId=lecturerDetails.0.mentorId%}">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="lectReport/{{lecturerDetails.mentorId}}">Report</a>
+                        {% for i in mentorDetails %}
+                        <a class="nav-link" href="{% url 'lectReport' mentorId=i.mentorId %}">Report</a>
+                        {% endfor%}
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -107,12 +128,17 @@
                             Student
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item disabled" href="#">My Student</a></li>
-                            <li><a class="dropdown-item" href="#">Make Appoinment</a></li>
-                            <!-- <li>
+                            {% for i in mentorDetails %}
+                            <li><a class="dropdown-item disabled">My Student</a></li>
+                            <li><a class="dropdown-item" href="{% url 'homeAppointment' i.mentorId%}">Make Appoinment</a></li>
+                            {% endfor%}<!-- <li>
                             <hr class="dropdown-divider">
                         </li> -->
                         </ul>
+                    </li>
+                    <hr>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Log out</a>
                     </li>
                 </ul>
             </div>

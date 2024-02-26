@@ -16,7 +16,7 @@
         <div class="container-fluid">
             <span class="navbar-brand my-nav mb-0 h1">
                 <img src="{% static 'assets/LogoKPM.png' %}" alt="" width="40">
-                <h4>Intervention System</h4>
+                <h4>KPMCare</h4>
             </span>
         </div>
     </nav>
@@ -28,7 +28,7 @@
         <div class="reportFormContainer">
             <h2 class="mb-3">Appoinment Form</h2>
             {% if mode == "submit" %}
-            <form method="post" action="./submitAppointment/{{mentorId.mentorId}}">
+            <form method="post" action="{% url 'submitLectApp' mentorId.mentorId%}">
                 {% csrf_token %}
                 <div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Lecturer ID</label>
@@ -36,11 +36,11 @@
                         value="{{mentorId.mentorId}}" disabled required>
                 </div>
                 <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Student ID</label>
+                    <label for="exampleFormControlInput1" class="form-label">Student Name</label>
                     <select name="appointmentStudentId" class="form-select form-select-lg mb-3"
                         aria-label="Large select example">
                         {% for student in studentId %}
-                        <option value="{{student.studentId}}">{{student.studentId}}</option>
+                        <option value="{{student.studentId}}">{{student.studentName}}</option>
                         {% endfor%}
                     </select>
                 </div>
@@ -73,16 +73,11 @@
                     <textarea name="appointmentPurpose" placeholder="optional"  class="form-control" id="exampleFormControlTextarea1"
                         rows="3"></textarea>
                 </div>
-
-                <div class="mb-3">
-                    <label for="exampleFormControlTextarea1" class="form-label">Description</label>
-                    <textarea name="appointmentDesc" placeholder="optional"  class="form-control" id="exampleFormControlTextarea1"
-                        rows="3"></textarea>
-                </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
             {% else %}
-            <form method="post" action="../updateAppointment/update/{{app}}">
+            <!-- {{app.id}} -->
+            <form method="post" action="{% url 'submitAppointment' app.id%}">
                 {% csrf_token %}
                 <fieldset>
                     <div class="mb-3">
@@ -92,16 +87,15 @@
                             value="{{mentorId.mentorId}}" disabled>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">Student ID</label>
-                        {% for student in studentId %}                            
-                        <input type="hidden" name="appStudentId" value="{{student.studentId}}">
-                        {% endfor%}    
-                                            
+                        <label for="exampleFormControlInput1" class="form-label">Student Name</label>
+                        {% for student in studentId %}    
+                        {% if app.student.studentId == student.studentId%}                        
+                        <input type="hidden" name="appStudentId" value="{{student.studentId}}">            
                         <select disabled  class="form-select form-select-lg mb-3"
                             aria-label="Large select example">
-                            {% for student in studentId %}
-                            <option value="{{student.studentId}}">{{student.studentId}}</option>
-                            {% endfor%}
+                            <option value="{{student.studentId}}">{{student.studentName}}</option>
+                            {%endif%}
+                            {% endfor %}
                         </select>
                     </div>
                 </fieldset>
@@ -153,8 +147,8 @@
                             href="{% url 'lecturerPage' mentorId=mentorId.mentorId%}">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" aria-disabled="true"
-                            href="lectReport/{{mentor.mentorId}}">Report</a>
+                        <a class="nav-link" 
+                            href="{% url 'lectReport' mentorId=mentorId.mentorId%}">Report</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -162,12 +156,13 @@
                             Student
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">My Student</a></li>
-                            <li><a class="dropdown-item" href="#">Make Appoinment</a></li>
-                            <!-- <li>
-                            <hr class="dropdown-divider">
-                        </li> -->
+                            <li><a class="dropdown-item" href="{% url 'myStudent' mentorId=mentorId.mentorId%}">My Student</a></li>
+                            <li><a class="dropdown-item" href="{% url 'homeAppointment' mentorId=mentorId.mentorId%}">Make Appoinment</a></li>
                         </ul>
+                    </li>
+                    <hr>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Log out</a>
                     </li>
                 </ul>
             </div>

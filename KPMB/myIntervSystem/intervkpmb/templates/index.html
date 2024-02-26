@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        /* Resetting default margin and padding */
+body, h1, h3, p, ul, li, table, th, td {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+}
+
+nav {
+    background-color: #333;
+    padding: 10px;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    padding: 5px 10px;
+    margin-right: 10px;
+}
+
+nav a:hover {
+    background-color: #555;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+div {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #ddd;
+}
+
+    </style>
+</head>
+<body>
+    <h1>KPMB Intervention System</h1>
+    <nav>
+        <a href="{% url 'mystudent' lecturer.lectId%}">My Student</a>
+        <a href="{%url 'reportpage' lecturer.lectId%}">Add Report</a>
+        <a href="">Send Message</a>
+    </nav>
+    <main>
+        <div>
+            <h3>My Report</h3>
+            <table>
+                <tr>
+                    <th>No</th>
+                    <th>Student ID</th>
+                    <th>Student Name</th>
+                    <th>Date</th>
+                    <th>Report Description</th>
+                </tr>
+                {% for i in report%}
+                <tr>
+                    <!-- {{report}} -->
+                    <td>{{i.id}}</td>
+
+                    {% for student in students%}
+                    {% if student.stuId == i.student.stuId%}
+                    <td>{{student.stuId}}</td>
+                    <td>{{student.stuName}}</td>
+                    {% endif%}
+                    {%endfor%}
+
+                    <td>{{i.date}}</td>
+                    <td>{{i.reportText}}</td>
+                </tr>
+                {%endfor%}
+            </table>
+        </div>
+        <div>
+            <h3>My Message</h3>
+            <table>
+                <tr>
+                    <th>No</th>
+                    <th>Student ID</th>
+                    <th>Student Name</th>
+                    <th>Date</th>
+                    <th>Message</th>
+                </tr>
+                {% for i in message%}
+                <tr>    <!-- {{report}} -->
+                    <td>{{i.id}}</td>
+                    <td>{{student.stuId}}</td>
+                    <td>{{student.stuName}}</td>
+                    <td>{{i.date}}</td>
+                    <td>{{i.messageText}}</td>
+                </tr>
+                {%endfor%}
+            </table>
+        </div>
+    </main>
+</body>
+</html> 

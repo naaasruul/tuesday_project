@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 
+import os # 1
+import dj_database_url # 2
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,10 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-3$*tpi9runevihr1s84=$+^=2d2=sv(0d2c_mb)+eerignl@r)'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY','django-insecure-3$*tpi9runevihr1s84=$+^=2d2=sv(0d2c_mb)+eerignl@r)') # 3
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = ps.environ.get('DJANGO_DEBUG','') != "False" # 4
 
 ALLOWED_HOSTS = []
 
@@ -48,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', # 5
 ]
 
 ROOT_URLCONF = 'mppsurvey.urls'
@@ -115,10 +119,14 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-
+STATIC_ROOT = BASE_DIR / 'staticfiles' # 6
 STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+db_from_env =dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env) # 7
+
+# 8 add procfile (newfile)

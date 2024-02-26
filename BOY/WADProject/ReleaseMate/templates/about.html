@@ -1,0 +1,102 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('{% static "bck.jpg" %}');
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        header {
+            background-color:#525165;
+            padding: 10px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+        .header-content {
+            display: flex;
+            align-items: center;
+        }
+        .header-content h1 {
+            font-family: 'Papyrus', cursive;
+            margin-right: 10px;
+            color: aliceblue
+        }
+        img.logo {
+            width: 60px;
+            height: 70px;
+            margin-right: 10px; /* Adjust margin as needed */
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            margin-top: 20px; /* Added margin-top to create space between header and container */
+        }
+
+        .role-box {
+            width: 300px;
+            height: 100px;
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none; /* Added to remove underline */
+            color: #333; /* Added to set text color */
+        }
+
+        .role-box:hover {
+            background-color: rgb(126, 126, 126);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: black;
+        }
+        p{
+            color: red;
+        }
+        footer{
+            background-color: #333;
+            text-align: center;
+            padding: 10px;
+        }
+        
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>RELEASEMATE !!</h1>
+        </div>
+        <div class="container">
+            <p>Please choose your sign in role</p> <!-- Paragraph added -->
+            <h1>are you Sign In as...?</h1>
+            <a href="masuk" class="role-box">Student</a>
+            <a href="mentor" class="role-box">Mentor</a>
+            <a href="TMG" class="role-box">Admin</a>
+        </div> 
+    </header>
+</body>
+</html>

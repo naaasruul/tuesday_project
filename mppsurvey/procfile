@@ -1,0 +1,1 @@
+web : gunicorn cocuriculur.wsg1 --log-file -

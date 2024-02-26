@@ -12,6 +12,10 @@ class Student(models.Model):
     studentName = models.CharField(max_length=200)
     mentor = models.ForeignKey(Mentor, on_delete=models.CASCADE)
     password = models.CharField(max_length=128)
+    address = models.TextField(blank=True, null=True ,default="Value not set")
+    phone = models.CharField(blank=True , default="Value not set", null=True,max_length=15)
+    course = models.CharField(blank=True , default="Value not set", null=True,max_length=15)
+    image = models.ImageField(default='default.jpg', upload_to='profile_pics')
 
 class Admin(models.Model):
     adminId = models.CharField(max_length=5, primary_key=True)
@@ -24,8 +28,9 @@ class Appointment(models.Model):
     appointmentDate = models.DateField()
     venue = models.CharField(max_length=100)
     time = models.TimeField()
-    description = models.TextField(blank=True, null=True)
-    purpose = models.TextField(blank=True, null=True)
+    description = models.TextField(blank=True, null=True, default="-")
+    purpose = models.TextField(blank=True, null=True, default="-")
+    status = models.CharField(max_length=8, default="Pending...")
     # Add any other fields relevant to the appointment
 
 class Report(models.Model):

@@ -47,3 +47,14 @@ form .radio-container{
 .reportFormContainer{
     margin: 2em 20%;
 }
+
+.profileContainer{
+    margin: 0 25% ;
+}
+
+.profilePic{
+    width: 7em;
+    height: 7em;
+    border-radius: 50%;
+    
+}

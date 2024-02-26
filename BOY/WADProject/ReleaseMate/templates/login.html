@@ -1,0 +1,131 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Class Release System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('{% static "bck.jpg" %}');
+        }
+        header {
+            background-color:#57566d;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column; /* Added to stack elements vertically */
+        }
+        .header-content {
+            display: flex;
+            align-items: center;
+        }
+        .header-content h1 {
+            font-family: 'Papyrus', cursive; /* Use any fancy font you desire */
+            margin-right: 10px;
+        }
+        nav {
+            background-color: #444;
+            padding: 10px;
+            text-align: center;
+            position: relative; /* Added for positioning the button */
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .next-button {
+            background-color: grey;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            position: fixed;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 80px;
+        }
+        main {
+            padding: 20px;
+            /* Set a background color or transparency for the main content area */
+            background-color: rgba(255, 255, 255, 0.8); /* Change the values to adjust transparency */
+            text-align: center; /* Center align content */
+        }
+        footer {
+            background-color: grey;
+            color: black;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        /* Resize image */
+        img.logo {
+            width: 60px;
+            height: 70px;
+            margin-right: 10px; /* Adjust margin as needed */
+        }
+        h2{
+            font-weight: bold;
+        }
+        .image-container {
+            display: flex;
+            justify-content: space-around; 
+            align-items: center;
+            margin-top: 5px; 
+        }
+
+        .image-container img {
+            width: 130px;
+            height: auto; 
+        }
+
+        .arrow {
+            width: 30px; /* Ukuran panah */
+            height: auto; /* Menyesuaikan tinggi agar proporsi tetap */
+            margin: 0 10px; /* Mengatur jarak antara panah dan gambar */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <img src="{% static 'm.png' %}" class="logo">
+            <h1>RELEASEMATE !!</h1>
+        </div>
+    </header>
+    <nav>
+        <a href="/WADProject/Home">Home</a>
+        <a href="/WADProject/about">About</a>
+        <a href="/WADProject/">PTS17 Form</a>
+    </nav>
+    <main>
+        <h2>WELCOME</h2>
+        <p>Release Mate is an application designed to facilitate students of Kolej Profesional MARA Beranang in making special release requests.
+            <br> Please be reminded that if you are found cheating, you will be subjected to disciplinary action and may be fined accordingly.</p>
+        <p>The Special Release System is implemented to facilitate all students in making special releases that were previously done manually 
+            <br>using the PTS17 PDF Form, which needed to be copied from the PDF file and submitted to the HEP Counter near admin.</p>
+    </main>
+    <hr width="body">
+    <center><h3>INSTRUCTION</h3></center>
+    <div class="image-container">
+        <img src="{% static '1.png' %}" alt="Gambar 1">
+        <img src="{% static 'arrow.png' %}" alt="Panah 1-2" class="arrow">
+        <img src="{% static '2.png' %}" alt="Gambar 2">
+        <img src="{% static 'arrow.png' %}" alt="Panah 2-3" class="arrow">
+        <img src="{% static '3.png' %}" alt="Gambar 3">
+    </div>
+    <footer>
+        <p>&copy; 2024 Student Class Release System.KPMB.</p>
+    </footer>
+    <center><a href="about" class="next-button">SIGN-IN</a></center><!-- Moved the button outside of the nav element -->
+</body>
+</html>

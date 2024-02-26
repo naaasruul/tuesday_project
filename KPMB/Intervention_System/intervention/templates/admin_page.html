@@ -1,22 +1,332 @@
 {% load static%}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Page</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'style.css'%}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Page</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'style.css'%}">
 </head>
+
 <body>
-    <nav class="navbar bg-body-tertiary">
-        <div class="container-fluid">
-            <span class="navbar-brand my-nav mb-0 h1">
-                <img src="{% static 'assets/LogoKPM.png' %}" alt="" width="40">
-                <h4>Intervention System</h4>
-            </span>
+  <nav class="navbar bg-body-tertiary">
+    <div class="container-fluid">
+      <span class="navbar-brand my-nav mb-0 h1">
+        <img src="{% static 'assets/LogoKPM.png' %}" alt="" width="40">
+        <h4>KPMCare</h4>
+      </span>
+    </div>
+  </nav>
+  <nav class="">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'adminPage' adminDetails.adminId%}">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'adminDisplayMentor' adminDetails.adminId %}">My Mentor</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'adminDisplayStudent' adminDetails.adminId %}">My Student</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'adminDisplayReport' adminDetails.adminId %}">All Report</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'adminDisplayApp' adminDetails.adminId %}">All Appointment</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'login'%}">Log out</a>
+      </li>
+    </ul>
+  </nav>
+  <main class="m-3">
+
+    <!-- <h1>Welcome back, {{studentDetails1.studentName}}</h1>  -->
+    {% if mode == "displayReport"%}
+    <h2>All Reports</h2>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Report ID</th>
+          <th scope="col">Student Name</th>
+          <th scope="col">Mentor Name</th>
+          <th scope="col">Date</th>
+          <th scope="col">Report Category</th>
+          <th scope="col">Report Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for report in reportDetails %}
+        <tr>
+          <th scope="row">R{{report.id}}</th>
+          {%for student in studentDetails%}
+          {% if report.student_id == student.studentId%}
+          <td>{{student.studentName}}</td>
+          {%endif%}
+          {% endfor%}
+
+          {% for mentor in mentorDetails%}
+          {% if report.mentor_id == mentor.mentorId%}
+          <td>{{mentor.mentorName}}</td>
+          {%endif%}
+          {%endfor%}
+          <td>{{report.date}}</td>
+          <td>{{report.reportCategory}}</td>
+          <td>{{report.reportText}}</td>
+        </tr>
+        {% endfor%}
+      </tbody>
+    </table>
+
+
+
+    <!-- if user click display appointment -->
+    {%elif mode == "displayApp"%}
+    <h2>All Appointments</h2>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Appointment ID</th>
+          <th scope="col">Student Name</th>
+          <th scope="col">Mentor Name</th>
+          <th scope="col">Date</th>
+          <th scope="col">Venue</th>
+          <th scope="col">Time</th>
+          <th scope="col">Description</th>
+          <th scope="col">Purpose</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for app in appointmentDetails %}
+        {%if app.status == "Rejected"%}
+        <tr  class="table-danger">
+          <th scope="row">AP{{app.id}}</th>
+          {%for student in studentDetails%}
+          {% if app.student_id == student.studentId%}
+          <td>{{student.studentName}}</td>
+          {%endif%}
+          {% endfor%}
+
+          {% for mentor in mentorDetails%}
+          {% if app.mentor_id == mentor.mentorId%}
+          <td>{{mentor.mentorName}}</td>
+          {%endif%}
+          {%endfor%}
+          <td>{{app.appointmentDate}}</td>
+          <td>{{app.venue}}</td>
+          <td>{{app.time}}</td>
+          <td>{{app.description}}</td>
+          <td>{{app.purpose}}</td>
+          <td>{{app.status}}</td>
+        </tr>
+        {% elif app.status == "Successfully"%}
+        <tr  class="table-success">
+          <th scope="row">AP{{app.id}}</th>
+          {%for student in studentDetails%}
+          {% if app.student_id == student.studentId%}
+          <td>{{student.studentName}}</td>
+          {%endif%}
+          {% endfor%}
+
+          {% for mentor in mentorDetails%}
+          {% if app.mentor_id == mentor.mentorId%}
+          <td>{{mentor.mentorName}}</td>
+          {%endif%}
+          {%endfor%}
+          <td>{{app.appointmentDate}}</td>
+          <td>{{app.venue}}</td>
+          <td>{{app.time}}</td>
+          <td>{{app.description}}</td>
+          <td>{{app.purpose}}</td>
+          <td>{{app.status}}</td>
+        </tr>
+        {% else %}
+        <tr  class="table-warning">
+          <th scope="row">AP{{app.id}}</th>
+          {%for student in studentDetails%}
+          {% if app.student_id == student.studentId%}
+          <td>{{student.studentName}}</td>
+          {%endif%}
+          {% endfor%}
+
+          {% for mentor in mentorDetails%}
+          {% if app.mentor_id == mentor.mentorId%}
+          <td>{{mentor.mentorName}}</td>
+          {%endif%}
+          {%endfor%}
+          <td>{{app.appointmentDate}}</td>
+          <td>{{app.venue}}</td>
+          <td>{{app.time}}</td>
+          <td>{{app.description}}</td>
+          <td>{{app.purpose}}</td>
+          <td>{{app.status}}</td>
+        </tr>
+
+        {%endif%}
+        {% endfor%}
+      </tbody>
+    </table>
+
+
+    <!-- if user click display students -->
+    {%elif mode == "displayStudent"%}
+    <div class="me-5 d-grid gap-2 d-md-flex justify-content-between">
+      <h2>All Students</h2>
+      <a href="{% url 'adminAddStudent' adminDetails.adminId %}"><button class="btn btn-primary" type="button">Add
+          Student</button></a>
+    </div>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Student ID</th>
+          <th scope="col">Student Name</th>
+          <th scope="col">Mentor Name</th>
+          <th scope="col">Address</th>
+          <th scope="col">No Phone</th>
+          <th scope="col">Course</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for student in studentDetails %}
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="{{student.studentId}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+          aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Delete student</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Delete student with ID {{student.studentId}}?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="{% url 'adminDeleteStudent' adminDetails.adminId  student.studentId %} ">
+                  <button type="button" class="btn btn-danger">Delete</button>
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
-    </nav>
+
+
+        <tr>
+          <th scope="row">{{student.studentId}}</th>
+          <td>{{student.studentName}}</td>
+          {% for mentor in mentorDetails%}
+          {% if student.mentor_id == mentor.mentorId%}
+          <td>{{mentor.mentorName}}</td>
+          {%endif%}
+          {%endfor%}
+          <td>{{student.address}}</td>
+          <td>{{student.phone}}</td>
+          <td>{{student.course}}</td>
+          <td>
+            <button data-bs-toggle="modal" data-bs-target="#{{student.studentId}}" type="button" class="btn btn-danger"><i
+                class="fa-solid fa-trash"></i></button>
+          </td>
+        </tr>
+        {% endfor%}
+      </tbody>
+    </table>
+
+
+    <!-- if user click display mentors -->
+    {%elif mode == "displayMentor"%}
+
+    <div class="me-5 d-grid gap-2 d-md-flex justify-content-between">
+      <h2>All Mentors</h2>
+      <a href="{% url 'adminAddMentor' adminDetails.adminId %}"><button class="btn btn-primary" type="button">Add
+          Lecturer</button></a>
+
+    </div>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Mentor ID</th>
+          <th scope="col">Mentor Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for mentor in mentorDetails %}
+        <!-- Modal -->
+        <div class="modal fade" id="{{mentor.mentorId}}"   tabindex="-1"
+          aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" >Delete mentor</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Delete mentor with ID {{mentor.mentorId}}?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="{% url 'adminDeleteMentor' adminDetails.adminId  mentor.mentorId %}">
+                  <button type="button" class="btn btn-danger">delete</button>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <tr>
+          <th scope="row">{{mentor.mentorId}}</th>
+          <td>{{mentor.mentorName}}</td>
+          <td>
+            <button data-bs-toggle="modal" data-bs-target="#{{mentor.mentorId}}" type="button" class="btn btn-danger"><i
+                class="fa-solid fa-trash"></i></button>
+          </td>
+        </tr>
+        {% endfor%}
+      </tbody>
+    </table>
+    {%else%}
+
+    <h1>Welcome back, {{adminDetails.adminName}}</h1>
+    <p class="fw-lighter">Here's what's going on at your college today.</p>
+    <div class="row mt-5 center">
+      <div class="col-sm-6 mb-3 mb-sm-0">
+        <div class="card">
+          <div class="card-body">
+            <h1 class="card-title">Total of students</h1>
+            <p class="card-text">
+              <h1 class="display-1">{{totalStudent}}</h1>
+              <a class="btn btn-primary" href="{% url 'adminDisplayStudent' adminDetails.adminId %}">My Student</a>
+            </p>
+            <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <h1 class="card-title">Total of lecturers</h1>
+            <p class="card-text">
+              <h1 class="display-1">{{totalMentor}}</h1>
+              <a class="btn btn-primary" href="{% url 'adminDisplayMentor' adminDetails.adminId %}">My Mentor</a>
+            </p>
+            <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {%endif%}
+  </main>
 </body>
+<script src="https://kit.fontawesome.com/d46a78d0a5.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+  integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+  integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/d46a78d0a5.js" crossorigin="anonymous"></script>
+
 </html>
